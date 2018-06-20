@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Muhammad Babayi</Authors>
+    <Company>GihanSoft</Company>
+    <Description>Gihan Base interfaces for use multiplatform.</Description>
+    <Copyright>Copyright (c) 2018 Mohammad Babayi</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseUrl>https://github.com/chiefmb/Gihan.Storage/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/chiefmb/Gihan.Storage/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/chiefmb/Gihan.Storage/</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
 </Project>

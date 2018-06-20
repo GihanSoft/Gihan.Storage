@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageLicenseUrl>https://github.com/chiefmb/Gihan.Storage/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/chiefmb/Gihan.Storage/</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/chiefmb/Gihan.Storage/</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.1.0</Version>
+    <Authors>Muhammad Babayi</Authors>
+    <Company>GihanSoft</Company>
+    <Copyright>Copyright (c) 2018 Mohammad Babayi</Copyright>
+    <Description>System.IO (.net standard) implementation for Gihan.Storage</Description>
   </PropertyGroup>
 
   <ItemGroup>
