@@ -14,8 +14,18 @@ namespace Gihan.Storage.SystemIO.Base
         /// <summary>
         /// The full path of the item, if the item has a path.
         /// </summary>
-        public string Path => BaseStorageItem.FullName.
-            TrimEnd(SysPath.AltDirectorySeparatorChar, SysPath.DirectorySeparatorChar);
+        public string Path
+        {
+            get
+            {
+                var path = BaseStorageItem.FullName.
+                    TrimEnd(SysPath.AltDirectorySeparatorChar, SysPath.DirectorySeparatorChar);
+                if (!path.Contains(("\\"))) {
+                    path += "\\";
+                }
+                return path;
+            }
+        }
 
         /// <summary>
         /// The parent folder of the current storage item.
