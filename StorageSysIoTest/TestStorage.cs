@@ -141,6 +141,22 @@ namespace StorageSysIoTest
         }
 
         [Fact]
+        public void TestCaseSensetiveRename()
+        {
+            var tempPath = SysIO.Path.GetTempFileName();
+            //////////////////
+            var tempFile = new File(tempPath);
+            tempFile.Rename("temp.file");
+            tempFile.Rename("TeMp.file");
+            Assert.False(SysIO.File.Exists(tempPath));
+            var newName = SysIO.Path.Combine(SysIO.Path.GetDirectoryName(tempPath), "TeMp.file");
+            Assert.True(SysIO.File.Exists(newName));
+            tempPath = tempFile.Path;
+            //////////////////
+            SysIO.File.Delete(tempPath);
+        }
+
+        [Fact]
         public void TestRenameIgnoreExtension()
         {
             var tempPath = SysIO.Path.GetTempFileName();

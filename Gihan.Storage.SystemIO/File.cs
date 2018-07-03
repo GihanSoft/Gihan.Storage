@@ -9,7 +9,7 @@ using SysPath = System.IO.Path;
 
 namespace Gihan.Storage.SystemIO
 {
-    public class File : Base.StorageItem, IFile
+    public class File : StorageItem, IFile
     {
         //protected FileInfo BaseFile => (FileInfo)BaseStorageItem;
         protected new FileInfo BaseStorageItem => (FileInfo)base.BaseStorageItem;
@@ -122,6 +122,11 @@ namespace Gihan.Storage.SystemIO
         public IFile Copy(IFolder destinationFolder, string desiredNewName,
             NameCollisionOption option = NameCollisionOption.FailIfExists)
         {
+            if (destinationFolder == null) throw
+                new ArgumentNullException(nameof(destinationFolder));
+            if (string.IsNullOrWhiteSpace(desiredNewName))
+                throw new ArgumentNullException(nameof(desiredNewName));
+
             var destFullPath = SysPath.Combine(destinationFolder.Path, desiredNewName);
 
             switch (option)
@@ -180,6 +185,11 @@ namespace Gihan.Storage.SystemIO
         public void Move(IFolder destinationFolder, string desiredNewName,
             NameCollisionOption option = NameCollisionOption.FailIfExists)
         {
+            if (destinationFolder == null)
+                throw new ArgumentNullException(nameof(destinationFolder));
+            if (string.IsNullOrWhiteSpace(desiredNewName))
+                throw new ArgumentNullException(nameof(desiredNewName));
+
             var destFullPath = SysPath.Combine(destinationFolder.Path, desiredNewName);
 
             StorageItem item = null;
@@ -212,6 +222,8 @@ namespace Gihan.Storage.SystemIO
                         throw new ArgumentException("invalid option", nameof(option));
                 }
             }
+            if (string.Equals(destFullPath, Path, StringComparison.OrdinalIgnoreCase))
+                Move(destinationFolder, desiredNewName, NameCollisionOption.GenerateUniqueName);
             BaseStorageItem.MoveTo(destFullPath);
         }
 

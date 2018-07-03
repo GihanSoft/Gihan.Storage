@@ -80,7 +80,7 @@ namespace Gihan.Storage.SystemIO
         {
             IEnumerable<IStorageItem> files = GetFiles(option);
             IEnumerable<IStorageItem> folders = GetFolders(option);
-            return files.Concat(folders).ToList().AsReadOnly();   
+            return files.Concat(folders).ToList().AsReadOnly();
         }
 
         /// <summary>
@@ -126,6 +126,8 @@ namespace Gihan.Storage.SystemIO
                         throw new ArgumentException("invalid option", nameof(option));
                 }
             }
+            if (string.Equals(destFullPath, Path, StringComparison.OrdinalIgnoreCase))
+                Rename(desiredName, NameCollisionOption.GenerateUniqueName);
             BaseStorageItem.MoveTo(destFullPath);
         }
     }
