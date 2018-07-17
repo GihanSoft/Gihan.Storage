@@ -33,8 +33,8 @@ namespace Gihan.Storage.SystemIO
         public File(FileInfo item) : base(item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
-            if (!item.Exists)
-                throw new ArgumentException("file is not exist", nameof(item));
+            //if (!item.Exists)
+                //throw new ArgumentException("file is not exist", nameof(item));
             if (Directory.Exists(item.FullName))
                 throw new ArgumentException("this is a folder", nameof(item));
         }

@@ -24,14 +24,14 @@ namespace Gihan.Storage.SystemIO
 
         public Folder(DirectoryInfo item) : base(item)
         {
-            if (!item.Exists)
-                throw new ArgumentException("Folder is not exist", nameof(item));
+            //if (!item.Exists)
+            //    throw new ArgumentException("Folder is not exist", nameof(item));
         }
 
         public Folder(string folderPath) : base(new DirectoryInfo(folderPath))
         {
-            if (!Directory.Exists(folderPath))
-                throw new ArgumentException("Folder is not exist", nameof(folderPath));
+            //if (!Directory.Exists(folderPath))
+            //    throw new ArgumentException("Folder is not exist", nameof(folderPath));
         }
 
         /// <summary>
