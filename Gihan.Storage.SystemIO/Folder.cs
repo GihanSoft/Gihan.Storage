@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Gihan.Helpers.String;
 using Gihan.Storage.Core;
 using Gihan.Storage.Core.Base;
 using Gihan.Storage.Core.Enums;
@@ -113,7 +114,7 @@ namespace Gihan.Storage.SystemIO
                 switch (option)
                 {
                     case NameCollisionOption.GenerateUniqueName:
-                        var nextName = NextName(desiredName);
+                        var nextName = NextName.ProductNextName(desiredName);
                         Rename(nextName, option);
                         return;
                     case NameCollisionOption.ReplaceExisting:

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Gihan.Helpers.String;
 using Gihan.Storage.Core;
 using Gihan.Storage.Core.Enums;
 using Gihan.Storage.SystemIO.Base;
@@ -136,7 +137,7 @@ namespace Gihan.Storage.SystemIO
                     {
                         var pureName = SysPath.GetFileNameWithoutExtension(desiredNewName);
                         var ex = SysPath.GetExtension(desiredNewName);
-                        pureName = NextName(pureName);
+                        pureName = NextName.ProductNextName(pureName);
                         return Copy(destinationFolder, pureName + ex, option);
                     }
                     else
@@ -209,7 +210,7 @@ namespace Gihan.Storage.SystemIO
                     case NameCollisionOption.GenerateUniqueName:
                         var pureName = SysPath.GetFileNameWithoutExtension(desiredNewName);
                         var ex = SysPath.GetExtension(desiredNewName);
-                        pureName = NextName(pureName);
+                        pureName = NextName.ProductNextName(pureName);
                         Move(destinationFolder, pureName + ex, option);
                         return;
                     case NameCollisionOption.ReplaceExisting:

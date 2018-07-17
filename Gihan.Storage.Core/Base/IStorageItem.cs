@@ -25,6 +25,11 @@ namespace Gihan.Storage.Core.Base
         StorageItemType Type { get; }
 
         /// <summary>
+        /// Specifies whether the Item Exist or not
+        /// </summary>
+        bool Exist { get; }
+
+        /// <summary>
         /// Renames the current item. This method also specifies what to do if an existing
         ///     item in the current item's location has the same name.
         /// </summary>

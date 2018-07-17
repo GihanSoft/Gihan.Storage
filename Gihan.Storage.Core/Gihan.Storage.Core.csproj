@@ -11,7 +11,10 @@
     <PackageProjectUrl>https://github.com/chiefmb/Gihan.Storage/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/chiefmb/Gihan.Storage/</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>1.2.0 :
+1-added "Exist" property
+2-nextName method moved to this package</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

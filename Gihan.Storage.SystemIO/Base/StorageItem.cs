@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Gihan.Storage.Core;
+﻿using Gihan.Storage.Core;
 using Gihan.Storage.Core.Enums;
 
 using SysPath = System.IO.Path;
@@ -42,6 +41,11 @@ namespace Gihan.Storage.SystemIO.Base
         /// </summary>
         public abstract StorageItemType Type { get; }
 
+        /// <summary>
+        /// Specifies whether the Item Exist or not
+        /// </summary>
+        public bool Exist => BaseStorageItem.Exists;
+
         protected StorageItem(System.IO.FileSystemInfo item)
         {
             BaseStorageItem = item;
@@ -68,31 +72,31 @@ namespace Gihan.Storage.SystemIO.Base
         public abstract void Rename(string desiredName,
             NameCollisionOption option = NameCollisionOption.FailIfExists);
 
-        protected string NextName(string currentName)
-        {
-            currentName = new string(currentName.ToCharArray());
-            var currentNum = -1;
-            if (currentName.Last() != ')')
-                currentNum = 2;
+        //protected string NextName(string currentName)
+        //{
+        //    currentName = new string(currentName.ToCharArray());
+        //    var currentNum = -1;
+        //    if (currentName.Last() != ')')
+        //        currentNum = 2;
 
-            string currentNumStr = null;
-            var i = 0;
-            if (currentNum == -1)
-                for (i = currentName.Length - 2; i > 0 && char.IsDigit(currentName[i]); i--)
-                {
-                    currentNumStr += currentName[i].ToString();
-                }
+        //    string currentNumStr = null;
+        //    var i = 0;
+        //    if (currentNum == -1)
+        //        for (i = currentName.Length - 2; i > 0 && char.IsDigit(currentName[i]); i--)
+        //        {
+        //            currentNumStr += currentName[i].ToString();
+        //        }
 
-            if (currentNum == -1 && currentNumStr != null && currentName[i] == '(')
-                currentNum = int.Parse(currentNumStr);
+        //    if (currentNum == -1 && currentNumStr != null && currentName[i] == '(')
+        //        currentNum = int.Parse(currentNumStr);
 
-            if (currentNum == -1) currentNum = 2;
+        //    if (currentNum == -1) currentNum = 2;
 
 
-            currentName = currentName + $"({currentNum})";
+        //    currentName = currentName + $"({currentNum})";
 
-            return currentName;
-        }
+        //    return currentName;
+        //}
 
         public override string ToString()
         {
