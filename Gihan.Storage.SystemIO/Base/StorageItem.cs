@@ -19,8 +19,9 @@ namespace Gihan.Storage.SystemIO.Base
             {
                 var path = BaseStorageItem.FullName.
                     TrimEnd(SysPath.AltDirectorySeparatorChar, SysPath.DirectorySeparatorChar);
-                if (!path.Contains(("\\"))) {
-                    path += "\\";
+                if (!path.Contains(SysPath.DirectorySeparatorChar.ToString()))
+                {
+                    path += SysPath.DirectorySeparatorChar.ToString();
                 }
                 return path;
             }
