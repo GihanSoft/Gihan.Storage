@@ -84,6 +84,11 @@ namespace Gihan.Storage.SystemIO
             return files.Concat(folders).ToList().AsReadOnly();
         }
 
+        public override bool CheckExist(string path)
+        {
+            return Directory.Exists(path);
+        }
+
         /// <summary>
         /// Renames the current folder. This method also specifies what to do if an existing
         ///     item in the current item's location has the same name.

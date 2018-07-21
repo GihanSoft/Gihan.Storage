@@ -43,6 +43,11 @@ namespace Gihan.Storage.SystemIO
         {
         }
 
+        public override bool CheckExist(string path)
+        {
+            return SysIo.File.Exists(path) && !Directory.Exists(path);
+        }
+
         /// <summary>
         /// Renames the current item. This method also specifies what to do if an existing
         ///     item in the current item's location has the same name.
