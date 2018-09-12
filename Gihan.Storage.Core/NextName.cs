@@ -6,28 +6,23 @@ namespace Gihan.Helpers.String
     {
         public static string ProductNextName(string currentName)
         {
-            //currentName = new string(currentName.ToCharArray());
-            var currentNum = -1;
-            if (currentName.Last() != ')')
-                currentNum = 2;
+            bool hasNum;
+            hasNum = currentName.Last() == ')';
+            if (hasNum && !char.IsDigit(currentName[currentName.Length - 2]))
+                    hasNum = false;
+            if (!hasNum) return currentName + "(2)";
 
-            string currentNumStr = null;
-            var i = 0;
-            if (currentNum == -1)
-                for (i = currentName.Length - 2; i > 0 && char.IsDigit(currentName[i]); i--)
-                {
-                    currentNumStr += currentName[i].ToString();
-                }
+            var currentNumStr = "";
+            int i;
+            for (i = currentName.Length - 2; i > 0 && char.IsDigit(currentName[i]); i--)
+            {
+                currentNumStr = currentName[i] + currentNumStr;
+            }
 
-            if (currentNum == -1 && currentNumStr != null && currentName[i] == '(')
-                currentNum = int.Parse(currentNumStr);
-
-            if (currentNum == -1) currentNum = 2;
-
-
-            var result = currentName + $"({currentNum})";
-
-            return result;
+            if (currentName[i] != '(') return currentName + "(2)";
+            var currentNum = int.Parse(currentNumStr);
+            var pureName = currentName.Substring(0, i);
+            return $"{pureName}({++currentNum})";
         }
     }
 }
