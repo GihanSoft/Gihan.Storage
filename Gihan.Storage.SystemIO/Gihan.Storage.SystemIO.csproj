@@ -7,13 +7,14 @@
     <PackageProjectUrl>https://github.com/chiefmb/Gihan.Storage/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.3.9</Version>
+    <Version>1.3.10</Version>
     <Authors>Muhammad Babayi</Authors>
     <Company>GihanSoft</Company>
     <Copyright>Copyright (c) 2018 Mohammad Babayi</Copyright>
     <Description>System.IO (.net standard 2.0) implementation for Gihan.Storage</Description>
     <PackageReleaseNotes>1- Implemented Gihan.Storage.Core v1.3.0 interfaces (see Gihan.Storage.Core for changes)
 2- now use Natural string comparer for sort in Folder get items (+files +folders)</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
