@@ -6,7 +6,6 @@ using Gihan.Storage.SystemIO.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gihan.Helpers.StringHelper;
 using SearchOption = Gihan.Storage.Core.Enums.SearchOption;
 using SysIO = System.IO;
 using SysPath = System.IO.Path;

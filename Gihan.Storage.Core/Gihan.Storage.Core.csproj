@@ -16,7 +16,8 @@
 2- Replace() removed
 3- check file exist and folder exist methods separated
 4- added IsEmpty() method for folders
-5- ...</PackageReleaseNotes>
+5- a bug fixed.
+6- ...</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
