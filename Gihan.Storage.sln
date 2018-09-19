@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gihan.Storage.SystemIO", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gihan.Storage.UWP", "Gihan.Storage.UWP\Gihan.Storage.UWP.csproj", "{BFEA6B79-893B-4450-8DC7-BB971D0DE89B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageSysIoTest", "StorageSysIoTest\StorageSysIoTest.csproj", "{C719F6A1-3045-4B59-8C9A-4E0D3EBEDA2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageSysIoTest", "StorageSysIoTest\StorageSysIoTest.csproj", "{C719F6A1-3045-4B59-8C9A-4E0D3EBEDA2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

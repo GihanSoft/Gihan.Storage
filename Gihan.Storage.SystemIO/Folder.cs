@@ -1,37 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Gihan.Helpers.String;
+﻿using Gihan.Helpers.String;
 using Gihan.Storage.Core;
 using Gihan.Storage.Core.Base;
 using Gihan.Storage.Core.Enums;
 using Gihan.Storage.SystemIO.Base;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Gihan.Helpers.StringHelper;
+using SearchOption = Gihan.Storage.Core.Enums.SearchOption;
+using SysIO = System.IO;
 using SysPath = System.IO.Path;
-using SysIo = System.IO;
 
 namespace Gihan.Storage.SystemIO
 {
     public class Folder : StorageItem, IFolder
     {
-        protected new DirectoryInfo BaseStorageItem => (DirectoryInfo)base.BaseStorageItem;
+        protected new SysIO.DirectoryInfo BaseStorageItem => (SysIO.DirectoryInfo)base.BaseStorageItem;
 
         /// <summary>
         /// The <see cref="StorageItemType"/> of this item.
         /// </summary>
         public override StorageItemType Type => StorageItemType.Folder;
 
-        public Folder(DirectoryInfo item) : base(item)
+        public Folder(SysIO.DirectoryInfo item) : base(item)
         {
-            //if (!item.Exists)
-            //    throw new ArgumentException("Folder is not exist", nameof(item));
         }
 
-        public Folder(string folderPath) : base(new DirectoryInfo(folderPath))
+        public Folder(string folderPath) : base(new SysIO.DirectoryInfo(folderPath))
         {
-            //if (!Directory.Exists(folderPath))
-            //    throw new ArgumentException("Folder is not exist", nameof(folderPath));
         }
 
         /// <summary>
@@ -43,11 +39,12 @@ namespace Gihan.Storage.SystemIO
         ///     Each file in the list is represented by a <see cref="IFile"/> object.
         /// </returns>
         public IReadOnlyList<IFile> GetFiles
-            (Core.Enums.SearchOption option = Core.Enums.SearchOption.TopDirectoryOnly)
+            (SearchOption option = SearchOption.TopDirectoryOnly)
         {
-            var baseFiles = BaseStorageItem.EnumerateFiles("*.*", (SysIo.SearchOption)option);
-            var files = baseFiles.Select(bf => new File(bf));
-            return files.ToList().AsReadOnly();
+            var baseFiles = BaseStorageItem.EnumerateFiles("*", (SysIO.SearchOption)option);
+            var files = baseFiles.Select(bf => new File(bf)).ToList();
+            files.Sort(NaturalStringComparer<StorageItem>.Default);
+            return files.AsReadOnly();
         }
 
         /// <summary>
@@ -60,11 +57,12 @@ namespace Gihan.Storage.SystemIO
         ///     . Each folder in the list is represented by a <see cref="IFolder"/> object.
         /// </returns>
         public IReadOnlyList<IFolder> GetFolders
-            (Core.Enums.SearchOption option = Core.Enums.SearchOption.TopDirectoryOnly)
+            (SearchOption option = SearchOption.TopDirectoryOnly)
         {
-            var baseFolders = BaseStorageItem.EnumerateDirectories("*", (SysIo.SearchOption)option);
-            var folders = baseFolders.Select(bf => new Folder(bf));
-            return folders.ToList().AsReadOnly();
+            var baseFolders = BaseStorageItem.EnumerateDirectories("*", (SysIO.SearchOption)option);
+            var folders = baseFolders.Select(bf => new Folder(bf)).ToList();
+            folders.Sort(NaturalStringComparer<IStorageItem>.Default);
+            return folders.AsReadOnly();
         }
 
         /// <summary>
@@ -77,16 +75,18 @@ namespace Gihan.Storage.SystemIO
         ///     Each item in the list is represented by an <see cref="IStorageItem"/> object.
         /// </returns>
         public IReadOnlyList<IStorageItem> GetItems
-            (Core.Enums.SearchOption option = Core.Enums.SearchOption.TopDirectoryOnly)
+            (SearchOption option = SearchOption.TopDirectoryOnly)
         {
             IEnumerable<IStorageItem> files = GetFiles(option);
             IEnumerable<IStorageItem> folders = GetFolders(option);
-            return files.Concat(folders).ToList().AsReadOnly();
+            var items = files.Concat(folders).ToList();
+            items.Sort(NaturalStringComparer<IStorageItem>.Default);
+            return items.AsReadOnly();
         }
 
-        public override bool CheckExist(string path)
+        public bool CheckExistFolder(string path)
         {
-            return Directory.Exists(path);
+            return SysIO.Directory.Exists(path);
         }
 
         /// <summary>
@@ -105,11 +105,11 @@ namespace Gihan.Storage.SystemIO
             var destFullPath = SysPath.Combine(Parent.Path, desiredName);
 
             StorageItem item = null;
-            if (Directory.Exists(destFullPath))
+            if (SysIO.Directory.Exists(destFullPath))
             {
                 item = new Folder(destFullPath);
             }
-            else if (SysIo.File.Exists(destFullPath))
+            else if (SysIO.File.Exists(destFullPath))
             {
                 item = new File(destFullPath);
             }
@@ -131,10 +131,16 @@ namespace Gihan.Storage.SystemIO
                     default:
                         throw new ArgumentException("invalid option", nameof(option));
                 }
+                if (item.Parent.Path == Parent.Path && item.Name != Name && item.Name.Equals(Name, StringComparison.OrdinalIgnoreCase))
+                    Rename(Name, NameCollisionOption.GenerateUniqueName);
             }
-            if (string.Equals(destFullPath, Path, StringComparison.OrdinalIgnoreCase))
-                Rename(desiredName, NameCollisionOption.GenerateUniqueName);
             BaseStorageItem.MoveTo(destFullPath);
+        }
+
+        public bool IsEmpty(bool includeFolders = true)
+        {
+            var items = GetItems(includeFolders ? SearchOption.TopDirectoryOnly : SearchOption.AllDirectories);
+            return items.Count <= 0;
         }
     }
 }

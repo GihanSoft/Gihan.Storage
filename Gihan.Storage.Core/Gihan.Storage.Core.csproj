@@ -11,10 +11,16 @@
     <PackageProjectUrl>https://github.com/chiefmb/Gihan.Storage/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/chiefmb/Gihan.Storage/</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.2.1</Version>
-    <PackageReleaseNotes>1.2.0 :
-1-added "Exist" property
-2-nextName method moved to this package</PackageReleaseNotes>
+    <Version>1.3.0</Version>
+    <PackageReleaseNotes>1- Added new interface methods for copy and move files
+2- Replace() removed
+3- check file exist and folder exist methods separated
+4- added IsEmpty() method for folders
+5- ...</PackageReleaseNotes>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Gihan.Helpers.StringHelper.NaturalStringComparer" Version="1.3.0" />
+  </ItemGroup>
 
 </Project>

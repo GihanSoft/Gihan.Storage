@@ -1,19 +1,17 @@
-﻿using System;
-using System.IO;
-using Gihan.Helpers.String;
+﻿using Gihan.Helpers.String;
 using Gihan.Storage.Core;
 using Gihan.Storage.Core.Enums;
 using Gihan.Storage.SystemIO.Base;
-
-using SysIo = System.IO;
+using System;
+using System.Linq;
+using SysIO = System.IO;
 using SysPath = System.IO.Path;
 
 namespace Gihan.Storage.SystemIO
 {
     public class File : StorageItem, IFile
     {
-        //protected FileInfo BaseFile => (FileInfo)BaseStorageItem;
-        protected new FileInfo BaseStorageItem => (FileInfo)base.BaseStorageItem;
+        protected new SysIO.FileInfo BaseStorageItem => (SysIO.FileInfo)base.BaseStorageItem;
 
         /// <summary>
         /// The <see cref="StorageItemType"/> of this item.
@@ -30,22 +28,22 @@ namespace Gihan.Storage.SystemIO
         /// </summary>
         public string Extension => SysPath.GetExtension(Name);
 
-        public File(FileInfo item) : base(item)
+        public File(SysIO.FileInfo item) : base(item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
             //if (!item.Exists)
-                //throw new ArgumentException("file is not exist", nameof(item));
-            if (Directory.Exists(item.FullName))
+            //throw new ArgumentException("file is not exist", nameof(item));
+            if (SysIO.Directory.Exists(item.FullName))
                 throw new ArgumentException("this is a folder", nameof(item));
         }
 
-        public File(string filePath) : this(new FileInfo(filePath))
+        public File(string filePath) : this(new SysIO.FileInfo(filePath))
         {
         }
 
-        public override bool CheckExist(string path)
+        public bool CheckExistFile(string path)
         {
-            return SysIo.File.Exists(path) && !Directory.Exists(path);
+            return SysIO.File.Exists(path) && !SysIO.Directory.Exists(path);
         }
 
         /// <summary>
@@ -61,6 +59,8 @@ namespace Gihan.Storage.SystemIO
         public override void Rename(string desiredName,
             NameCollisionOption option = NameCollisionOption.FailIfExists)
         {
+            if (SysPath.GetInvalidFileNameChars().Any(desiredName.Contains))
+                throw new ArgumentException("Name contains invalid character", nameof(desiredName));
             Move(Parent, desiredName, option);
         }
 
@@ -81,6 +81,75 @@ namespace Gihan.Storage.SystemIO
             NameCollisionOption option = NameCollisionOption.FailIfExists)
         {
             Rename(desiredName + Extension, option);
+        }
+
+        #region Copy
+        /// <summary>
+        /// Creates a copy of the file in the specified path
+        ///     This method also specifies what to do if a file with the same name already exists.
+        /// </summary>
+        /// <param name="destinationFullPath">
+        /// The destination path where the copy of the file is created.
+        /// </param>
+        /// <param name="option">
+        /// One of the enum values that determines how to handle the collision if a file 
+        ///     with the specified "<see cref="destinationFullPath"/>" already exists.
+        /// </param>
+        /// <returns>
+        /// <see cref="IFile"/> that represents the copy
+        ///     of the file that path of it, is "<see cref="destinationFullPath"/>".
+        /// </returns>
+        public IFile Copy(string destinationFullPath,
+            NameCollisionOption option = NameCollisionOption.FailIfExists)
+        {
+            if (string.IsNullOrWhiteSpace(destinationFullPath))
+                throw new ArgumentNullException(nameof(destinationFullPath));
+
+            switch (option)
+            {
+                case NameCollisionOption.GenerateUniqueName:
+                    if (SysIO.Directory.Exists(destinationFullPath) || SysIO.File.Exists(destinationFullPath))
+                    {
+                        var pureName = SysPath.GetFileNameWithoutExtension(destinationFullPath);
+                        var ex = SysPath.GetExtension(destinationFullPath);
+                        pureName = NextName.ProductNextName(pureName);
+                        var destinationFolder = SysPath.GetDirectoryName(destinationFullPath);
+                        if (destinationFolder == null) throw new Exception();
+                        return Copy(SysPath.Combine(destinationFolder, pureName + ex), option);
+                    }
+                    else
+                        return new File(BaseStorageItem.CopyTo(destinationFullPath));
+                case NameCollisionOption.ReplaceExisting:
+                    return new File(BaseStorageItem.CopyTo(destinationFullPath, true));
+                case NameCollisionOption.FailIfExists:
+                    return new File(BaseStorageItem.CopyTo(destinationFullPath, false));
+                default:
+                    throw new ArgumentException("invalid option", nameof(option));
+            }
+        }
+
+        /// <summary>
+        /// Creates a copy of the file in the specified path and rename the copy
+        ///     This method also specifies what to do if a file with the same name already exists.
+        /// </summary>
+        /// <param name="destinationFolderPath">
+        /// The destination folder path where the copy of the file is created.
+        /// </param>
+        /// <param name="desiredNewName">
+        /// The new name for the copy of the file created in the "<see cref="destinationFolderPath"/>".
+        /// </param>
+        /// <param name="option">
+        /// One of the enumeration values that determines how to handle the collision if a file 
+        ///     with the specified "<see cref="desiredNewName"/>" already exists in the destination folder.
+        /// </param>
+        /// <returns>
+        /// <see cref="IFile"/> that represents the copy
+        ///     of the file created in the "<see cref="destinationFolderPath"/>".
+        /// </returns>
+        public IFile Copy(string destinationFolderPath, string desiredNewName,
+            NameCollisionOption option = NameCollisionOption.FailIfExists)
+        {
+            return Copy(SysPath.Combine(destinationFolderPath, desiredNewName), option);
         }
 
         /// <summary>
@@ -118,7 +187,7 @@ namespace Gihan.Storage.SystemIO
         /// The new name for the copy of the file created in the "<see cref="destinationFolder"/>".
         /// </param>
         /// <param name="option">
-        /// One of the enumeration values that determines how to handle the collision if a file 
+        /// One of the enum values that determines how to handle the collision if a file 
         ///     with the specified "<see cref="desiredNewName"/>" already exists in the destination folder.
         /// </param>
         /// <returns>
@@ -134,43 +203,77 @@ namespace Gihan.Storage.SystemIO
                 throw new ArgumentNullException(nameof(desiredNewName));
 
             var destFullPath = SysPath.Combine(destinationFolder.Path, desiredNewName);
+            return Copy(destFullPath, option);
+        }
+        #endregion
 
-            switch (option)
+        #region Move
+        public void Move(string destinationFullPath,
+            NameCollisionOption option = NameCollisionOption.FailIfExists)
+        {
+            if (string.IsNullOrWhiteSpace(destinationFullPath))
+                throw new ArgumentNullException(nameof(destinationFullPath));
+            if (!Exist)
+                // like this, we will have a real exception XD. (FileNotFoundException)
+                BaseStorageItem.MoveTo(destinationFullPath);
+
+            StorageItem item = null;
+            if (SysIO.Directory.Exists(destinationFullPath))
             {
-                case NameCollisionOption.GenerateUniqueName:
-                    if (Directory.Exists(destFullPath) || SysIo.File.Exists(destFullPath))
-                    {
-                        var pureName = SysPath.GetFileNameWithoutExtension(desiredNewName);
-                        var ex = SysPath.GetExtension(desiredNewName);
-                        pureName = NextName.ProductNextName(pureName);
-                        return Copy(destinationFolder, pureName + ex, option);
-                    }
-                    else
-                        return new File(BaseStorageItem.CopyTo(destFullPath));
-                case NameCollisionOption.ReplaceExisting:
-                    return new File(BaseStorageItem.CopyTo(destFullPath, true));
-                case NameCollisionOption.FailIfExists:
-                    return new File(BaseStorageItem.CopyTo(destFullPath, false));
-                default:
-                    throw new ArgumentException("invalid option", nameof(option));
+                item = new Folder(destinationFullPath);
             }
+            else if (SysIO.File.Exists(destinationFullPath))
+            {
+                item = new File(destinationFullPath);
+            }
+
+            if (item != null)
+            {
+                if (!Path.Equals(item.Path, StringComparison.OrdinalIgnoreCase))
+                    switch (option)
+                    {
+                        case NameCollisionOption.GenerateUniqueName:
+                            while (SysIO.File.Exists(destinationFullPath))
+                            {
+                                var pureName = SysPath.GetFileNameWithoutExtension(destinationFullPath);
+                                var extension = SysPath.GetExtension(destinationFullPath);
+                                pureName = NextName.ProductNextName(pureName);
+                                destinationFullPath = SysPath.Combine(item.Parent.Path, pureName + extension);
+                            }
+                            break;
+                        case NameCollisionOption.ReplaceExisting:
+                            item.Delete(); //No problem. Existence of source checked in start of method.
+                            break;
+                        case NameCollisionOption.FailIfExists:
+                            // System.IO default option. .net will throw exception
+                            break;
+                        default:
+                            throw new ArgumentException("invalid option", nameof(option));
+                    }
+            }
+            BaseStorageItem.MoveTo(destinationFullPath);
+            SetParent();
         }
 
         /// <summary>
-        /// Moves the current file to the specified folder. This method also specifies 
-        ///     what to do if a file with the same name already exists in the specified folder.
+        /// Moves the current file to the specified folder and renames the file according
+        ///     to the desired name. This method also specifies what to do if a file with the
+        ///     same name already exists in the specified folder.
         /// </summary>
-        /// <param name="destinationFolder">
-        /// The destination folder where the file is moved.
+        /// <param name="destinationFolderPath">
+        /// The destination folderPath where the file is moved.
+        /// </param>
+        /// <param name="desiredNewName">
+        /// The desired name of the file after it is moved.
         /// </param>
         /// <param name="option">
-        /// An enum value that determines how responds if the name of current file is
+        /// An enum value that determines how responds if the "<see cref="desiredNewName"/>" is
         ///     the same as the name of an existing file in the destination folder.
         /// </param>
-        public void Move(IFolder destinationFolder,
+        public void Move(string destinationFolderPath, string desiredNewName,
             NameCollisionOption option = NameCollisionOption.FailIfExists)
         {
-            Move(destinationFolder, Name, option);
+            Move(SysPath.Combine(destinationFolderPath, desiredNewName), option);
         }
 
         /// <summary>
@@ -191,57 +294,25 @@ namespace Gihan.Storage.SystemIO
         public void Move(IFolder destinationFolder, string desiredNewName,
             NameCollisionOption option = NameCollisionOption.FailIfExists)
         {
-            if (destinationFolder == null)
-                throw new ArgumentNullException(nameof(destinationFolder));
-            if (string.IsNullOrWhiteSpace(desiredNewName))
-                throw new ArgumentNullException(nameof(desiredNewName));
-
-            var destFullPath = SysPath.Combine(destinationFolder.Path, desiredNewName);
-
-            StorageItem item = null;
-            if (Directory.Exists(destFullPath))
-            {
-                item = new Folder(destFullPath);
-            }
-            else if (SysIo.File.Exists(destFullPath))
-            {
-                item = new File(destFullPath);
-            }
-
-            if (item != null)
-            {
-                switch (option)
-                {
-                    case NameCollisionOption.GenerateUniqueName:
-                        var pureName = SysPath.GetFileNameWithoutExtension(desiredNewName);
-                        var ex = SysPath.GetExtension(desiredNewName);
-                        pureName = NextName.ProductNextName(pureName);
-                        Move(destinationFolder, pureName + ex, option);
-                        return;
-                    case NameCollisionOption.ReplaceExisting:
-                        item.Delete();
-                        break;
-                    case NameCollisionOption.FailIfExists:
-                        // System.IO default option. .net will throw exception
-                        break;
-                    default:
-                        throw new ArgumentException("invalid option", nameof(option));
-                }
-            }
-            if (string.Equals(destFullPath, Path, StringComparison.OrdinalIgnoreCase))
-                Move(destinationFolder, desiredNewName, NameCollisionOption.GenerateUniqueName);
-            BaseStorageItem.MoveTo(destFullPath);
+            Move(destinationFolder.Path, desiredNewName, option);
         }
 
         /// <summary>
-        /// Replaces the specified file with a copy of the current file.
+        /// Moves the current file to the specified folder. This method also specifies 
+        ///     what to do if a file with the same name already exists in the specified folder.
         /// </summary>
-        /// <param name="fileToReplace">
-        /// The file to replace.
+        /// <param name="destinationFolder">
+        /// The destination folder where the file is moved.
         /// </param>
-        public void Replace(IFile fileToReplace)
+        /// <param name="option">
+        /// An enum value that determines how responds if the name of current file is
+        ///     the same as the name of an existing file in the destination folder.
+        /// </param>
+        public void Move(IFolder destinationFolder,
+            NameCollisionOption option = NameCollisionOption.FailIfExists)
         {
-            Move(fileToReplace.Parent, fileToReplace.Name, NameCollisionOption.ReplaceExisting);
+            Move(destinationFolder, Name, option);
         }
+        #endregion
     }
 }

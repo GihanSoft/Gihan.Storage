@@ -56,6 +56,5 @@ namespace Gihan.Storage.Core.Base
         /// Deletes the current item.
         /// </summary>
         void Delete();
-
     }
 }

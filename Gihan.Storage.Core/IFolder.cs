@@ -36,5 +36,25 @@ namespace Gihan.Storage.Core
         ///     . Each folder in the list is represented by a <see cref="IFolder"/> object.
         /// </returns>
         IReadOnlyList<IFolder> GetFolders(SearchOption option = SearchOption.TopDirectoryOnly);
+
+        /// <summary>
+        /// Specifies is folder empty or not.
+        /// This method also specifies should it include empty folder in it or not.
+        /// </summary>
+        /// <param name="includeFolders">
+        /// If false, folder with empty folders in it is same as empty.
+        /// </param>
+        /// <returns></returns>
+        bool IsEmpty(bool includeFolders = true);
+
+        /// <summary>
+        /// Check is there a folder (and not file) exist in gived path
+        /// </summary>
+        /// <param name="path">path to check for folder</param>
+        /// <returns>
+        /// true if there is a folder in <see cref="path"/>.
+        /// fale if it's not exist
+        /// </returns>
+        bool CheckExistFolder(string path);
     }
 }
