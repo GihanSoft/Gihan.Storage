@@ -83,11 +83,6 @@ namespace Gihan.Storage.SystemIO
             return items.AsReadOnly();
         }
 
-        public bool CheckExistFolder(string path)
-        {
-            return SysIO.Directory.Exists(path);
-        }
-
         /// <summary>
         /// Renames the current folder. This method also specifies what to do if an existing
         ///     item in the current item's location has the same name.

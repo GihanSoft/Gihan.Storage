@@ -31,8 +31,6 @@ namespace Gihan.Storage.SystemIO
         public File(SysIO.FileInfo item) : base(item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
-            //if (!item.Exists)
-            //throw new ArgumentException("file is not exist", nameof(item));
             if (SysIO.Directory.Exists(item.FullName))
                 throw new ArgumentException("this is a folder", nameof(item));
         }
@@ -40,12 +38,7 @@ namespace Gihan.Storage.SystemIO
         public File(string filePath) : this(new SysIO.FileInfo(filePath))
         {
         }
-
-        public bool CheckExistFile(string path)
-        {
-            return SysIO.File.Exists(path) && !SysIO.Directory.Exists(path);
-        }
-
+        
         /// <summary>
         /// Renames the current item. This method also specifies what to do if an existing
         ///     item in the current item's location has the same name.

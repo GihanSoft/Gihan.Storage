@@ -29,15 +29,15 @@ namespace Gihan.Storage.Core.Base
         /// </summary>
         bool Exist { get; }
 
-        /// <summary>
-        /// Check is a storage item exist in gived path
-        /// </summary>
-        /// <param name="path">path to check for storage item</param>
-        /// <returns>
-        /// true if a storage item exist.
-        /// fale if it's not exist
-        /// </returns>
-        bool CheckExist(string path);
+        ///// <summary>
+        ///// Check is a storage item exist in gived path
+        ///// </summary>
+        ///// <param name="path">path to check for storage item</param>
+        ///// <returns>
+        ///// true if a storage item exist.
+        ///// fale if it's not exist
+        ///// </returns>
+        //bool CheckExist(string path);
 
         /// <summary>
         /// Renames the current item. This method also specifies what to do if an existing

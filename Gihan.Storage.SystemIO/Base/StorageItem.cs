@@ -64,18 +64,18 @@ namespace Gihan.Storage.SystemIO.Base
             BaseStorageItem.Delete();
         }
 
-        /// <summary>
-        /// Check is a storage item exist in gived path
-        /// </summary>
-        /// <param name="path">path to check for storage item</param>
-        /// <returns>
-        /// true if a storage item exist.
-        /// fale if it's not exist
-        /// </returns>
-        public bool CheckExist(string path)
-        {
-            return SysIO.File.Exists(path) || SysIO.Directory.Exists(path);
-        }
+        ///// <summary>
+        ///// Check is a storage item exist in gived path
+        ///// </summary>
+        ///// <param name="path">path to check for storage item</param>
+        ///// <returns>
+        ///// true if a storage item exist.
+        ///// fale if it's not exist
+        ///// </returns>
+        //public bool CheckExist(string path)
+        //{
+        //    return SysIO.File.Exists(path) || SysIO.Directory.Exists(path);
+        //}
 
         /// <summary>
         /// Renames the current item. This method also specifies what to do if an existing

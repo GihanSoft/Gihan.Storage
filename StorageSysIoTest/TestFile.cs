@@ -47,30 +47,30 @@ namespace StorageSysIoTest
 
         //todo چک فایل بدون پسوند
 
-        [Fact]
-        public void TestCheckExistFile()
-        {
-            var tempFilePath = GetTempFileName();
-            //-------------------------------------------------
-            var file = new File(tempFilePath);
-            Assert.True(file.CheckExistFile(tempFilePath));
-            IO.File.Delete(tempFilePath);
-            Assert.False(file.CheckExistFile(tempFilePath));
-        }
+        //[Fact]
+        //public void TestCheckExistFile()
+        //{
+        //    var tempFilePath = GetTempFileName();
+        //    //-------------------------------------------------
+        //    var file = new File(tempFilePath);
+        //    Assert.True(file.CheckExistFile(tempFilePath));
+        //    IO.File.Delete(tempFilePath);
+        //    Assert.False(file.CheckExistFile(tempFilePath));
+        //}
 
-        [Fact]
-        public void TestCheckExistFile_FolderPathInput()
-        {
-            string notExistPath;
-            do
-            {
-                notExistPath = Combine(GetTempPath(), Guid.NewGuid().ToString());
-            } while (IO.File.Exists(notExistPath));
+        //[Fact]
+        //public void TestCheckExistFile_FolderPathInput()
+        //{
+        //    string notExistPath;
+        //    do
+        //    {
+        //        notExistPath = Combine(GetTempPath(), Guid.NewGuid().ToString());
+        //    } while (IO.File.Exists(notExistPath));
 
-            var file = new File(notExistPath);
-            Assert.False(file.CheckExistFile(GetTempPath()));
-            Assert.False(file.CheckExistFile(notExistPath));
+        //    var file = new File(notExistPath);
+        //    Assert.False(file.CheckExistFile(GetTempPath()));
+        //    Assert.False(file.CheckExistFile(notExistPath));
 
-        }
+        //}
     }
 }

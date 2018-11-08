@@ -178,14 +178,14 @@ namespace Gihan.Storage.Core
         void RenameIgnoreExtension(string desiredName,
             NameCollisionOption option = NameCollisionOption.FailIfExists);
 
-        /// <summary>
-        /// Check is there a file (and not folder) exist in gived path
-        /// </summary>
-        /// <param name="path">path to check for file</param>
-        /// <returns>
-        /// true if there is a file in <see cref="path"/>.
-        /// fale if it's not exist
-        /// </returns>
-        bool CheckExistFile(string path);
+        ///// <summary>
+        ///// Check is there a file (and not folder) exist in gived path
+        ///// </summary>
+        ///// <param name="path">path to check for file</param>
+        ///// <returns>
+        ///// true if there is a file in <see cref="path"/>.
+        ///// fale if it's not exist
+        ///// </returns>
+        //bool CheckExistFile(string path);
     }
 }

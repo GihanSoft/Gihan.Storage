@@ -100,16 +100,16 @@ namespace StorageSysIoTest
             Assert.False(folder.Exist);
         }
 
-        [Fact]
-        public void TestCheckExist()
-        {
-            string path;
-            do
-            {
-                path = @"C:\" + Guid.NewGuid();
-            } while (IO.File.Exists(path));
-            Assert.False(new File(path).CheckExist(path));
-        }
+        //[Fact]
+        //public void TestCheckExist()
+        //{
+        //    string path;
+        //    do
+        //    {
+        //        path = @"C:\" + Guid.NewGuid();
+        //    } while (IO.File.Exists(path));
+        //    Assert.False(new File(path).CheckExist(path));
+        //}
 
         [Fact]
         public void TestFileDelete()
