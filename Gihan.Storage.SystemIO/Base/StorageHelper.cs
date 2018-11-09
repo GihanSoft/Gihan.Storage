@@ -1,13 +1,10 @@
 ﻿using Gihan.Storage.Core.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Gihan.Storage.SystemIO.Base
 {
     public class StorageHelper : Core.Base.StorageHelper
     {
-        static StorageHelper()
+        public static void Init()
         {
             Ctor = () => new StorageHelper();
         }
