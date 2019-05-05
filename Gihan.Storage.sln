@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2000
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28822.285
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3E3846B-B3E4-4F17-B1CC-3AA2EC54754C}"
 	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
+		LICENSE.md = LICENSE.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gihan.Storage.Core", "Gihan.Storage.Core\Gihan.Storage.Core.csproj", "{BFD9F90B-D831-453D-9586-DB3C095FCACA}"
@@ -15,6 +15,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gihan.Storage.UWP", "Gihan.Storage.UWP\Gihan.Storage.UWP.csproj", "{BFEA6B79-893B-4450-8DC7-BB971D0DE89B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageSysIoTest", "StorageSysIoTest\StorageSysIoTest.csproj", "{C719F6A1-3045-4B59-8C9A-4E0D3EBEDA2F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SysIoTest", "SysIoTest\SysIoTest.csproj", "{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,22 @@ Global
 		{C719F6A1-3045-4B59-8C9A-4E0D3EBEDA2F}.Release|x64.Build.0 = Release|Any CPU
 		{C719F6A1-3045-4B59-8C9A-4E0D3EBEDA2F}.Release|x86.ActiveCfg = Release|Any CPU
 		{C719F6A1-3045-4B59-8C9A-4E0D3EBEDA2F}.Release|x86.Build.0 = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|ARM.Build.0 = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|x64.Build.0 = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Debug|x86.Build.0 = Debug|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|ARM.Build.0 = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|x64.ActiveCfg = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|x64.Build.0 = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

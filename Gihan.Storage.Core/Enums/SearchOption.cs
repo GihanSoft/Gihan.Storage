@@ -12,7 +12,7 @@
         TopDirectoryOnly = 0,
         /// <summary>
         /// Includes the current directory and all its subdirectories in a search operation.
-        /// This option includes reparse points such as mounted drives and symbolic links
+        /// This option includes re-parse points such as mounted drives and symbolic links
         ///     in the search.
         /// </summary>
         AllDirectories = 1

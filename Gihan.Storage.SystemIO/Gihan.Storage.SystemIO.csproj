@@ -2,25 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageLicenseUrl>https://github.com/chiefmb/Gihan.Storage/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl></PackageLicenseUrl>
     <RepositoryUrl>https://github.com/chiefmb/Gihan.Storage/</RepositoryUrl>
     <PackageProjectUrl>https://github.com/chiefmb/Gihan.Storage/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <Version>1.4.1</Version>
+    <Version>1.5.0</Version>
     <Authors>Muhammad Babayi</Authors>
     <Company>GihanSoft</Company>
     <Copyright>Copyright (c) 2018 Mohammad Babayi</Copyright>
     <Description>System.IO (.net standard 2.0) implementation for Gihan.Storage</Description>
-    <PackageReleaseNotes>1.4.0:
-See Gihan.Storage.Core for changes
-1.4.1:
-added StorageHelper.Init static method</PackageReleaseNotes>
+    <PackageReleaseNotes></PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Gihan.Storage.Core\Gihan.Storage.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

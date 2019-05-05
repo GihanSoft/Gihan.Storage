@@ -4,6 +4,10 @@ namespace Gihan.Storage.SystemIO.Base
 {
     public class StorageHelper : Core.Base.StorageHelper
     {
+        static StorageHelper()
+        {
+            Init();
+        }
         public static void Init()
         {
             Ctor = () => new StorageHelper();
@@ -26,7 +30,8 @@ namespace Gihan.Storage.SystemIO.Base
 
         public override IStorageItem GetItem(string path)
         {
-            return FolderExist(path) ? new Folder(path) as IStorageItem : new File(path);
+            if (!Exist(path)) return null;
+            return FolderExist(path) ? new Folder(path) : new File(path) as IStorageItem;
         }
     }
 }

@@ -1,16 +1,17 @@
 ﻿using System;
 using Gihan.Storage.Core;
+using Gihan.Storage.Core.Base;
 using Gihan.Storage.Core.Enums;
 
-using SysPath = System.IO.Path;
+using static System.IO.Path;
 using SysIO = System.IO;
 
 namespace Gihan.Storage.SystemIO.Base
 {
-    public abstract class StorageItem : Core.Base.IStorageItem
+    public abstract class StorageItem : IStorageItem
     {
         private IFolder _parent;
-        protected SysIO.FileSystemInfo BaseStorageItem { get; }
+        protected SysIO.FileSystemInfo BaseStorageItem { get; set; }
 
         /// <summary>
         /// The full path of the item, if the item has a path.
@@ -20,10 +21,10 @@ namespace Gihan.Storage.SystemIO.Base
             get
             {
                 var path = BaseStorageItem.FullName.
-                    TrimEnd(SysPath.AltDirectorySeparatorChar, SysPath.DirectorySeparatorChar);
-                if (!path.Contains(SysPath.DirectorySeparatorChar.ToString()))
+                    TrimEnd(DirectorySeparatorChar, AltDirectorySeparatorChar);
+                if (!path.Contains(DirectorySeparatorChar.ToString()))
                 {
-                    path += SysPath.DirectorySeparatorChar;//.ToString();
+                    path += DirectorySeparatorChar;
                 }
                 return path;
             }
@@ -32,12 +33,12 @@ namespace Gihan.Storage.SystemIO.Base
         /// <summary>
         /// The parent folder of the current storage item.
         /// </summary>
-        public IFolder Parent => _parent ?? SetParent();
+        public IFolder Parent => _parent ?? ResetParent();
 
         /// <summary>
         /// The name of the item including the file name extension if there is one.
         /// </summary>
-        public string Name => SysPath.GetFileName(Path);
+        public string Name => BaseStorageItem.Name;
 
         /// <summary>
         /// The <see cref="StorageItemType"/> of this item.
@@ -48,8 +49,6 @@ namespace Gihan.Storage.SystemIO.Base
         /// Specifies whether the Item Exist or not
         /// </summary>
         public bool Exist => BaseStorageItem.Exists;
-
-        
 
         protected StorageItem(SysIO.FileSystemInfo item)
         {
@@ -64,26 +63,13 @@ namespace Gihan.Storage.SystemIO.Base
             BaseStorageItem.Delete();
         }
 
-        ///// <summary>
-        ///// Check is a storage item exist in gived path
-        ///// </summary>
-        ///// <param name="path">path to check for storage item</param>
-        ///// <returns>
-        ///// true if a storage item exist.
-        ///// fale if it's not exist
-        ///// </returns>
-        //public bool CheckExist(string path)
-        //{
-        //    return SysIO.File.Exists(path) || SysIO.Directory.Exists(path);
-        //}
-
         /// <summary>
         /// Renames the current item. This method also specifies what to do if an existing
         ///     item in the current item's location has the same name.
         /// </summary>
         /// <param name="desiredName">The desired, new name of the current item.</param>
         /// <param name="option">
-        /// The enum value that determines how responds if the <see cref="desiredName"/> is the
+        /// The <see cref="Enum"/> value that determines how responds if the <see cref="desiredName"/> is the
         ///     same as the name of an existing item in the current item's location.
         ///     Default value is "<see cref="NameCollisionOption.FailIfExists"/>".
         /// </param>
@@ -95,10 +81,41 @@ namespace Gihan.Storage.SystemIO.Base
             return Path;
         }
 
+        public IStorageItem Copy(string destinationFullPath,
+            NameCollisionOption option = NameCollisionOption.FailIfExists){
+            switch (this)
+            {
+                case File file:
+                    return file.Copy(destinationFullPath, option);
+                case Folder folder:
+                    return folder.Copy(destinationFullPath, option);
+                default:
+                    throw new Exception();
+            }
+        }
+        public IStorageItem Copy(string destinationFolderPath, string desiredNewName,
+            NameCollisionOption option = NameCollisionOption.FailIfExists)
+                => Copy(Combine(destinationFolderPath, desiredNewName), option);
+        public IStorageItem Copy(IFolder destinationFolder, string desiredNewName,
+            NameCollisionOption option = NameCollisionOption.FailIfExists)
+                => Copy(destinationFolder.Path, desiredNewName, option);
+        public IStorageItem Copy(IFolder destinationFolder,
+            NameCollisionOption option = NameCollisionOption.FailIfExists)
+                => Copy(destinationFolder, Name, option);
+
+        public abstract void Move(string destinationFullPath, 
+            NameCollisionOption option = NameCollisionOption.FailIfExists);
+        public abstract void Move(string destinationFolderPath, string desiredNewName, 
+            NameCollisionOption option = NameCollisionOption.FailIfExists);
+        public abstract void Move(IFolder destinationFolder, string desiredNewName, 
+            NameCollisionOption option = NameCollisionOption.FailIfExists);
+        public abstract void Move(IFolder destinationFolder, 
+            NameCollisionOption option = NameCollisionOption.FailIfExists);
+
         #region InnerMethods
-        protected IFolder SetParent()
+        protected IFolder ResetParent()
         {
-            return _parent = new Folder(SysPath.GetDirectoryName(Path));
+            return _parent = new Folder(GetDirectoryName(Path));
         }
         #endregion
     }
