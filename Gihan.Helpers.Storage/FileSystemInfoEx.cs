@@ -17,6 +17,15 @@ namespace Gihan.Helpers.Storage
                     throw new NotSupportedException("storage type not supported");
             }
         }
+        public static void EnsureParentExist(this FileSystemInfo src)
+        {
+            var parent = src.GetParent();
+            if(!parent.Exists)
+            {
+                parent.EnsureParentExist();
+                parent.Create();
+            }
+        }
         public static void Rename(this FileSystemInfo src, string destName, 
             NameCollisionOption nameCollisionOption = NameCollisionOption.FailIfExists)
         {

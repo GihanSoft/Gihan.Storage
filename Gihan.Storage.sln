@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28822.285
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B3E3846B-B3E4-4F17-B1CC-3AA2EC54754C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{B3E3846B-B3E4-4F17-B1CC-3AA2EC54754C}"
 	ProjectSection(SolutionItems) = preProject
 		gihansoft.ico = gihansoft.ico
 		LICENSE.md = LICENSE.md
@@ -17,7 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageSysIoTest", "Storage
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SysIoTest", "SysIoTest\SysIoTest.csproj", "{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gihan.Helpers.Storage", "Gihan.Helpers.Storage\Gihan.Helpers.Storage.csproj", "{F02BA5F6-9349-4016-995F-F5EEEED5400A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gihan.Helpers.Storage", "Gihan.Helpers.Storage\Gihan.Helpers.Storage.csproj", "{F02BA5F6-9349-4016-995F-F5EEEED5400A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "old", "old", "{8E99A661-D32B-4CF3-B1E2-6AF124A75ABD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{34B5E661-1071-44F9-ABDD-F0B91661A7E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +118,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFD9F90B-D831-453D-9586-DB3C095FCACA} = {8E99A661-D32B-4CF3-B1E2-6AF124A75ABD}
+		{05FB37BE-BA50-4499-A578-34CAFBA6F82D} = {8E99A661-D32B-4CF3-B1E2-6AF124A75ABD}
+		{C719F6A1-3045-4B59-8C9A-4E0D3EBEDA2F} = {34B5E661-1071-44F9-ABDD-F0B91661A7E5}
+		{F7E088B6-6F71-4088-BDD5-E3C61D8D8AC8} = {34B5E661-1071-44F9-ABDD-F0B91661A7E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1279BBAC-0AA0-4D21-9AC7-36F1DC6D471A}
